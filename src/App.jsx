@@ -2,7 +2,7 @@ import CarDetails from "./assets/CarDetails"
 function App() {
 
   return (
-    <CarDetails initialData={{initValueModel:"modello", initValueYear : "1980-01" , initValueColor : "#FF0000"}}/>
+    <CarDetails initialData={{modello: "ford" , anno : 2000, colore : "rosso" }}/>
   )
 }
 

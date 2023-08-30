@@ -1,36 +1,53 @@
-import { useState } from "react"
+import { useEffect, useRef } from 'react';
 
-function CarDetails({initialData}) {
-    const {initValueModel,initValueYear,initValueColor}= initialData
-    const [modello,setModello]=useState(initValueModel)
-    const [anno,setAnno]=useState(initValueYear)
-    const [colore,setColore]= useState(initValueColor)
-const handleChangeModel=((e)=>{
-    const model = e.target.value
-    setModello(model)
-})
-const handleChangeYear=((e)=>{   
-    const eyer = e.target.value 
-    setAnno(eyer)    
-})
-const handleChangeColor=((e)=>{
-    const color = e.target.value
-    setColore(color)    
-})
+function CarDetails({ initialData }) {
+  const formRef = useRef(null);
 
-    return(
-        <form>
-            <label >modello auto:</label>
-            <input type="text" onChange={handleChangeModel} value={modello}/>
-            
-            <label >anno e mese di immatricolazione:</label>
-            <input type="month" onChange={handleChangeYear} value={anno}/>
-            
-            <label>colore:</label>
-            <input type="color" onChange={handleChangeColor} value={colore}/>
-            
-            <button type="submit">INVIA</button>
-        </form>
-    )
+  useEffect(() => {
+    const form = formRef.current;
+    const { modello, anno, colore } = initialData;
+    form.modello.value = modello || '';
+    form.anno.value = anno || '';
+    form.colore.value = colore || '';
+  }, [initialData]);
+
+  const handleSubmit = ((e) => {
+    e.preventDefault();
+    const form = formRef.current;
+    
+    const formData = {
+      modello: form.modello.value,
+      anno: form.anno.value,
+      colore: form.colore.value,
+    };
+    console.log("la macchina scelta è :", formData);
+  });
+
+  return (
+    <form ref={formRef} onSubmit={handleSubmit}>
+      <div>
+        <label>
+          Model:
+          <input type="text" name="modello" />
+        </label>
+      </div>
+      <div>
+        <label>
+          Year:
+          <input type="text" name="anno" />
+        </label>
+      </div>
+      <div>
+        <label>
+          Color:
+          <input type="text" name="colore" />
+        </label>
+      </div>
+      <div>
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  );
 }
-export default CarDetails
+
+export default CarDetails;
